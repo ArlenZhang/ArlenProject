@@ -3,7 +3,6 @@ import gzip
 import shutil
 import struct
 import urllib
-from matplotlib import pyplot as plt
 import numpy as np
 import tensorflow as tf
 os.environ['TF_CPP_MIN_LOG_LEVEL']='2'
@@ -138,10 +137,3 @@ def get_mnist_dataset(batch_size, mnist_folder):
     test_data = tf.data.Dataset.from_tensor_slices(test)
     test_data = test_data.batch(batch_size)
     return train_data, test_data
-    
-def show(image):
-    """
-    Render a given numpy.uint8 2D array of pixel data.
-    """
-    plt.imshow(image, cmap='gray')
-    plt.show()

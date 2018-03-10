@@ -96,7 +96,7 @@ class ConvNet(object):
 
     def get_data(self):
         with tf.name_scope('data'):
-            mnist_folder = '../../data/mnist'
+            mnist_folder = 'data/mnist'
             train_data, test_data = utils.get_mnist_dataset(self.batch_size, mnist_folder=mnist_folder)
 
             iterator = tf.data.Iterator.from_structure(train_data.output_types, train_data.output_shapes)
@@ -118,10 +118,6 @@ class ConvNet(object):
                           stride=1,        # 步长
                           padding='SAME',  # 补
                           scope_name='conv1')
-        print(self.img.shape)
-        print(conv1.shape)
-        input()
-
         pool1 = maxpool(inputs=conv1,
                         ksize=2,
                         stride=2,
@@ -140,9 +136,6 @@ class ConvNet(object):
         full_c = fully_connected(pool2, 1024, 'fc')
         dropout = tf.nn.dropout(tf.nn.relu(full_c), self.keep_prob, name='relu_dropout')
         self.logits = fully_connected(dropout, self.n_classes, 'logits')
-        print(self.logits.shape)
-        print(self.label.shape)
-        input("shape")
 
     def create_loss(self):
         """
@@ -151,9 +144,7 @@ class ConvNet(object):
         with tf.name_scope('loss'):
             print(self.label.shape)
             print(self.logits.shape)
-            input("不一致的shape是什么鬼")
             entropy = tf.nn.softmax_cross_entropy_with_logits(labels=self.label, logits=self.logits)
-            input("不一致?")
             self.loss = tf.reduce_mean(entropy, name='loss')
     
     def create_optimize(self):
